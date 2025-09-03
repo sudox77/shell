@@ -20,6 +20,11 @@ int cmd_exit(char** args);
 int cmd_ls(char** args);
 int cmd_pwd(char** args);
 int cmd_clear(char** args);
+int cmd_mkdir(char** args);
+int cmd_rmdir(char** args);
+int cmd_cat(char** args);
+int cmd_touch(char** args);
+int cmd_rm(char** args);
 
 extern char* builtin_str[];
 extern int (*builtin_func[]) (char**);

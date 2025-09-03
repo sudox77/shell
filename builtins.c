@@ -6,7 +6,12 @@ char* builtin_str[] = {
     "exit",
     "ls",
     "pwd",
-    "clear"
+    "clear",
+    "mkdir",
+    "rmdir",
+    "cat",
+    "touch",
+    "rm"
 };
 
 int (*builtin_func[]) (char**) = {
@@ -15,7 +20,12 @@ int (*builtin_func[]) (char**) = {
     &cmd_exit,
     &cmd_ls,
     &cmd_pwd,
-    &cmd_clear
+    &cmd_clear,
+    &cmd_mkdir,
+    &cmd_rmdir,
+    &cmd_cat,
+    &cmd_touch,
+    &cmd_rm
 };
 
 int num_builtins(void) {
@@ -46,7 +56,6 @@ int cmd_help(char** args)
         printf("  %s\n", builtin_str[i]);
     }
 
-    printf("Use the man command for information on other programs.\n");
     return 1;
 }
 
@@ -92,6 +101,90 @@ int cmd_pwd(char** args)
     else {
         perror("shell");
     }
+    return 1;
+}
+
+int cmd_mkdir(char** args)
+{
+    if (args[1] == NULL) {
+        fprintf(stderr, "shell: expected argument to \"mkdir\"\n");
+    }
+    else {
+        if (mkdir(args[1], 0755) != 0) {
+            perror("shell");
+        }
+    }
+    return 1;
+}
+
+int cmd_rmdir(char** args)
+{
+    if (args[1] == NULL) {
+        fprintf(stderr, "shell: expected argument to \"rmdir\"\n");
+    }
+    else {
+        if (rmdir(args[1]) != 0) {
+            perror("shell");
+        }
+    }
+    return 1;
+}
+
+int cmd_cat(char** args)
+{
+    FILE* file;
+    char buffer[256];
+
+    if (args[1] == NULL) {
+        fprintf(stderr, "shell: expected argument to \"cat\"\n");
+        return 1;
+    }
+
+    file = fopen(args[1], "r");
+    if (file == NULL) {
+        perror("shell");
+        return 1;
+    }
+
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        printf("%s", buffer);
+    }
+
+    fclose(file);
+    return 1;
+}
+
+int cmd_touch(char** args)
+{
+    FILE* file;
+
+    if (args[1] == NULL) {
+        fprintf(stderr, "shell: expected argument to \"touch\"\n");
+        return 1;
+    }
+
+    file = fopen(args[1], "a");
+    if (file == NULL) {
+        perror("shell");
+        return 1;
+    }
+
+    fclose(file);
+    return 1;
+}
+
+int cmd_rm(char** args)
+{
+    if (args[1] == NULL) {
+        fprintf(stderr, "shell: expected argument to \"rm\"\n");
+        return 1;
+    }
+
+    if (unlink(args[1]) != 0) {
+        perror("shell");
+        return 1;
+    }
+
     return 1;
 }
 
