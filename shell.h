@@ -25,6 +25,10 @@ int cmd_rmdir(char** args);
 int cmd_cat(char** args);
 int cmd_touch(char** args);
 int cmd_rm(char** args);
+int cmd_echo(char** args);
+int cmd_cp(char** args);
+int cmd_mv(char** args);
+int cmd_chmod(char** args);
 
 extern char* builtin_str[];
 extern int (*builtin_func[]) (char**);

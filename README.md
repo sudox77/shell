@@ -13,6 +13,10 @@ shell implementation in c with some commands.
 - `clear` - clear terminal screen
 - `help` - show available commands
 - `exit` - exit shell
+- `echo <text>` - display text
+- `cp <source> <destination>` - copy file
+- `mv <source> <destination>` - move/rename file
+- `chmod <mode> <file>` - change file permissions
 
 ## build & run
 ```bash
